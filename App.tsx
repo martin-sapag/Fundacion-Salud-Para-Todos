@@ -76,7 +76,7 @@ const App: React.FC = () => {
       </main>
 
       <footer className="text-center py-4 text-slate-500 text-sm">
-        <p>&copy; {new Date().getFullYear()} - Provincia del Neuquén. Todos los derechos reservados.</p>
+        <p>&copy; {new Date().getFullYear()} mAIruba. Todos los derechos reservados.</p>
       </footer>
     </div>
   );
