@@ -16,6 +16,7 @@ const FileCard: React.FC<FileCardProps> = ({ file, onUpdateFile, onDeleteFile })
   
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(file.name);
+  const [editedDescription, setEditedDescription] = useState(file.description);
   const [editedCreationDate, setEditedCreationDate] = useState(file.creationDate);
 
   const handleAddNote = () => {
@@ -94,6 +95,7 @@ const FileCard: React.FC<FileCardProps> = ({ file, onUpdateFile, onDeleteFile })
 
   const handleEdit = () => {
     setEditedName(file.name);
+    setEditedDescription(file.description);
     setEditedCreationDate(file.creationDate);
     setIsEditing(true);
   };
@@ -103,14 +105,17 @@ const FileCard: React.FC<FileCardProps> = ({ file, onUpdateFile, onDeleteFile })
   };
   
   const handleSaveEdit = () => {
-    if (editedName.trim() === '' || editedCreationDate.trim() === '') {
-        alert('El nombre y la fecha no pueden estar vacíos.');
+    if (editedName.trim() === '' || editedCreationDate.trim() === '' || editedDescription.trim() === '') {
+        alert('El nombre, la descripción y la fecha no pueden estar vacíos.');
         return;
     }
 
     const changes = [];
     if (editedName.trim() !== file.name) {
-        changes.push(`nombre cambiado de "${file.name}" a "${editedName.trim()}"`);
+        changes.push(`número cambiado de "${file.name}" a "${editedName.trim()}"`);
+    }
+    if (editedDescription.trim() !== file.description) {
+        changes.push(`descripción modificada`);
     }
     if (editedCreationDate !== file.creationDate) {
         const oldDate = new Date(file.creationDate).toLocaleDateString('es-AR', { timeZone: 'UTC' });
@@ -131,6 +136,7 @@ const FileCard: React.FC<FileCardProps> = ({ file, onUpdateFile, onDeleteFile })
     onUpdateFile({
         ...file,
         name: editedName.trim(),
+        description: editedDescription.trim(),
         creationDate: editedCreationDate,
         trackingHistory: history,
     });
@@ -143,14 +149,15 @@ const FileCard: React.FC<FileCardProps> = ({ file, onUpdateFile, onDeleteFile })
     <>
       <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl">
         {/* Card Header */}
-        <div className="p-5 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-          <div>
+        <div className="p-5 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex-grow">
             <h3 className="text-lg font-bold text-sky-800">{file.name}</h3>
-            <p className="text-sm text-slate-500 mt-1">
+            <p className="text-sm text-slate-600 mt-2 whitespace-pre-wrap">{file.description}</p>
+            <p className="text-sm text-slate-500 mt-2">
               Creado el: {new Date(file.creationDate).toLocaleDateString('es-AR', { timeZone: 'UTC' })}
             </p>
           </div>
-          <div className="mt-3 sm:mt-0">
+          <div className="mt-3 sm:mt-0 sm:ml-4 flex-shrink-0">
             <StatusBadge status={file.status} />
           </div>
         </div>
@@ -164,13 +171,26 @@ const FileCard: React.FC<FileCardProps> = ({ file, onUpdateFile, onDeleteFile })
                 <div className="space-y-4">
                     <div>
                         <label htmlFor={`edit-name-${file.id}`} className="block text-sm font-medium text-slate-600 mb-1">
-                            Nombre del Expediente
+                            Número de nota o expediente
                         </label>
                         <input
                             id={`edit-name-${file.id}`}
                             type="text"
                             value={editedName}
                             onChange={(e) => setEditedName(e.target.value)}
+                            className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 transition"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor={`edit-description-${file.id}`} className="block text-sm font-medium text-slate-600 mb-1">
+                            Descripción
+                        </label>
+                        <textarea
+                            id={`edit-description-${file.id}`}
+                            value={editedDescription}
+                            onChange={(e) => setEditedDescription(e.target.value)}
+                            rows={4}
                             className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 transition"
                             required
                         />
@@ -277,9 +297,10 @@ const FileCard: React.FC<FileCardProps> = ({ file, onUpdateFile, onDeleteFile })
            <p className="text-sm text-gray-600 mb-6">Programa N° 77 "Red de Leche Humana de la Provincia del Neuquén"</p>
            
            <div className="mb-6 p-4 border rounded">
-              <p><strong className="font-semibold">Nombre:</strong> {file.name}</p>
-              <p><strong className="font-semibold">Fecha de Creación:</strong> {new Date(file.creationDate).toLocaleDateString('es-AR', { timeZone: 'UTC' })}</p>
-              <p><strong className="font-semibold">Estado Actual:</strong> {file.status}</p>
+              <p><strong className="font-semibold">Nro. Expediente/Nota:</strong> {file.name}</p>
+              <p className="mt-2 whitespace-pre-wrap"><strong className="font-semibold">Descripción:</strong> {file.description}</p>
+              <p className="mt-2"><strong className="font-semibold">Fecha de Creación:</strong> {new Date(file.creationDate).toLocaleDateString('es-AR', { timeZone: 'UTC' })}</p>
+              <p className="mt-2"><strong className="font-semibold">Estado Actual:</strong> {file.status}</p>
            </div>
            
            <h2 className="text-xl font-semibold mb-4 border-b pb-2">Historial de Seguimiento</h2>

@@ -1,5 +1,5 @@
 {
-  "name": "Seguimiento de Expedientes - Programa N° 77",
+  "name": "Seguimiento de Expedientes y Notas - Programa N° 77 y Red BLH",
   "description": "Una aplicación para registrar y dar seguimiento a los expedientes del Programa N° 77 'Red de Leche Humana de la Provincia del Neuquén', con la capacidad de cambiar estados y exportar informes en PDF.",
   "requestFramePermissions": []
 }

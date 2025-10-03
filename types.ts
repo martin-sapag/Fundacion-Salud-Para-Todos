@@ -1,4 +1,3 @@
-
 export enum FileStatus {
   InProgress = 'En ejecución',
   Resolved = 'Ya Resuelto',
@@ -13,6 +12,7 @@ export interface TrackingUpdate {
 export interface FileRecord {
   id: string;
   name: string;
+  description: string;
   creationDate: string;
   status: FileStatus;
   trackingHistory: TrackingUpdate[];

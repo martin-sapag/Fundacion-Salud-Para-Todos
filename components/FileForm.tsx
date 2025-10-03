@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { FileRecord } from '../types';
 import { PlusIcon } from './icons';
@@ -9,24 +8,26 @@ interface FileFormProps {
 
 const FileForm: React.FC<FileFormProps> = ({ onAddFile }) => {
   const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   const [creationDate, setCreationDate] = useState(new Date().toISOString().split('T')[0]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (name.trim() && creationDate.trim()) {
-      onAddFile({ name, creationDate });
+    if (name.trim() && creationDate.trim() && description.trim()) {
+      onAddFile({ name, description, creationDate });
       setName('');
+      setDescription('');
       setCreationDate(new Date().toISOString().split('T')[0]);
     }
   };
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-lg sticky top-8">
-      <h2 className="text-lg font-semibold text-slate-700 mb-4">Registrar Nuevo Expediente</h2>
+      <h2 className="text-lg font-semibold text-slate-700 mb-4">Registrar nuevo expediente o nota</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="expediente-name" className="block text-sm font-medium text-slate-600 mb-1">
-            Nombre del Expediente
+            Número de nota o expediente
           </label>
           <input
             id="expediente-name"
@@ -35,6 +36,20 @@ const FileForm: React.FC<FileFormProps> = ({ onAddFile }) => {
             onChange={(e) => setName(e.target.value)}
             className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 transition"
             placeholder="Ej: Exp. 2024-12345-NQN"
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="expediente-description" className="block text-sm font-medium text-slate-600 mb-1">
+            Descripción de nota o expediente
+          </label>
+          <textarea
+            id="expediente-description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={4}
+            className="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 transition"
+            placeholder="Ingrese una breve descripción..."
             required
           />
         </div>

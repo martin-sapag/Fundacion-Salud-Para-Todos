@@ -109,7 +109,8 @@ const FileList: React.FC<FileListProps> = ({ files, onUpdateFile, onDeleteFile }
            <table className="w-full text-left border-collapse text-base">
               <thead>
                 <tr className="bg-slate-700 text-white">
-                  <th className="p-3 border border-slate-300">Nombre del Expediente</th>
+                  <th className="p-3 border border-slate-300">Nro. Nota/Expediente</th>
+                  <th className="p-3 border border-slate-300">Descripción</th>
                   <th className="p-3 border border-slate-300">Fecha de Creación</th>
                   <th className="p-3 border border-slate-300">Estado</th>
                 </tr>
@@ -118,6 +119,7 @@ const FileList: React.FC<FileListProps> = ({ files, onUpdateFile, onDeleteFile }
                 {files.map((file, index) => (
                   <tr key={`print-summary-${file.id}`} className={index % 2 !== 0 ? 'bg-slate-100' : 'bg-white'}>
                     <td className="p-2 border border-slate-300">{file.name}</td>
+                    <td className="p-2 border border-slate-300" style={{'whiteSpace': 'pre-wrap', 'wordBreak': 'break-word'}}>{file.description}</td>
                     <td className="p-2 border border-slate-300">{new Date(file.creationDate).toLocaleDateString('es-AR', { timeZone: 'UTC' })}</td>
                     <td className="p-2 border border-slate-300">{file.status}</td>
                   </tr>
